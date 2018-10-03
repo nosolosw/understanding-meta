@@ -166,6 +166,35 @@ class UnderstandingMeta {
         </div>
         <?php
     }
+
+    static function get_posts( $query ) {
+        // TODO: get these values from elsewhere
+        // like an user subscription, GET query params, etc
+        $reach_value = 'personal';
+        $type_value = 'watercooler';
+
+        $terms = get_terms( array(
+            'taxonomy' => self::TAXONOMY,
+            'fields' => 'names',
+            'meta_query' => array(
+                array(
+                    'key' => self::META_REACH,
+                    'value' => $reach_value
+                ),
+                array(
+                    'key' => self::META_TYPE,
+                    'value' => $type_value
+                )
+            )
+        ) );
+        $query->set( 'tax_query', array(
+            array(
+                'taxonomy' => self::TAXONOMY,
+                'field' => 'name',
+                'terms' => $terms
+             )
+        ) );
+    }
 }
 
 // Take care of registering the new taxonomy and adding/removing the terms
@@ -179,4 +208,5 @@ add_action( 'meta_add_form_fields', 'UnderstandingMeta::add_form_fields', 10 );
 add_action( 'created_term', 'UnderstandingMeta::add_term_meta', 10, 3 );
 add_action( 'edited_term', 'UnderstandingMeta::update_term_meta', 10, 3 );
 
+add_action( 'pre_get_posts', 'UnderstandingMeta::get_posts' );
 ?>
