@@ -78,7 +78,7 @@ class UnderstandingMeta {
     }
 
     static function contains_post_data( ) {
-        return isset( $_POST[ self::META_REACH ] ) && $_POST[ self::META_REACH] && isset( $_POST[ self::META_TYPE ] ) && $_POST[ self::META_TYPE ];
+        return isset( $_POST[ self::META_REACH ] ) && isset( $_POST[ self::META_TYPE ] );
     }
 
     static function add_term_meta( $term_id, $tt_id, $taxonomy ) {
